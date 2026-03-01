@@ -8,7 +8,7 @@ I initially used Docker with Docker Compose files to set up a basic Homelab, how
 Kubernetes (K8s) is an open-source platform for automating the deployment, scaling, and management of containerized applications.
 
 ## Kubernetes Homelab
-My Homelab is starting as a beginner-friendly Kubernetes cluster with 2 RaspberryPis as nodes (pi5 as master + pi4 as worker). This cluster was built/bootstrapped using **kubeadm**. This was done because I want to learn more about cluster architecture, networking, and DevOps fundamentals from the ground up.
+My Homelab is starting as a beginner-friendly Kubernetes cluster with 2 RaspberryPis as nodes (2 pi5's - one as master + one as worker). This cluster was built/bootstrapped using **kubeadm**. This was done because I want to learn more about cluster architecture, networking, and DevOps fundamentals from the ground up.
 
 ---
 
