@@ -59,18 +59,17 @@ Instead of using lightweight distributions like **k3s**, **minikube**, **microk8
 
 ## Bootstrap Steps
 High-level process:
-1. Use the Raspberry Pi Imager to install PiOS Lite 64bit to the Pis
-2. Turn **swap** off (designated space on a disk (either a dedicated partition or a file) which is used as virtual memory when the system's physical RAM is full)
+1. Use the Raspberry Pi Imager to install ~~PiOS Lite 64bit~~ Ubuntu Server 25.10 64bit to the Pis
+2. ~~Turn **swap** off (designated space on a disk (either a dedicated partition or a file) which is used as virtual memory when the system's physical RAM is full)~~ Default is off on Ubuntu Server 25.10 64bit
 3. Prepare both pis for Kubernetes Networking (requires certain kernel modules)
 4. Install containerd
 5. Install kubeadm, kubelet, kubectl
-6. Initialize Master node
+6. Initialize Master node (kubeadm init)
 7. Configure kubectl
-8. Untaint the Master node
-9. Install CNI plugin
-10. Join worker node(s) to cluster
+9. Join worker node(s) to cluster
+10. Apply CNI plugin
 
-For full documentation, see `/docs`.
+For full documentation, see [/docs](./docs/).
 
 ---
 <!--
