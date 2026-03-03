@@ -1,5 +1,5 @@
 # A new set of notes using the correct OS on two Raspberry Pi 5's
-NOTE: See /docs/rpi-os-notes.md for previous setup attempt (DID NOT WORK)
+NOTE: See [/docs/rpi-os-notes.md](./rpi-os-notes.md) for previous setup attempt (DID NOT WORK)
 
 ---
 
@@ -53,7 +53,7 @@ For example: Lines 57-63 in my code equates to the following from the linked exa
     line: '\g<0> cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1'
 ```
 I found that the `ansible.builtin.lineinfile` command, with the `regexp` filter just didn't work, so I did the same thing but with old reliable **bash**.
-I used my guide from /docs/rpi-os-notes.md as a step-by-step process, essentially recreating that manual process as it mostly worked.
+I used my guide from [/docs/rpi-os-notes.md](./rpi-os-notes.md) as a step-by-step process, essentially recreating that manual process as it mostly worked.
 This time around I ran into less errors while creating the script. Most of the errors were from incorrect use of **ansible** as I was still getting the hang of the **syntax** and how many times to indent lines.
 
 ### Step 4: kubeadm init (going above and beyond)

@@ -9,7 +9,7 @@ NOTE: None of these three resources worked when simply following the steps, so I
 ---
 
 # THESE NOTES ARE A LEARNING EXPERIENCE AND DID NOT WORK
-See /docs/ubuntu-server-notes.md
+See [/docs/ubuntu-server-notes.md](./ubuntu-server-notes.md)
 
 ---
 
