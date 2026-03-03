@@ -8,6 +8,11 @@ NOTE: None of these three resources worked when simply following the steps, so I
 
 ---
 
+# THESE NOTES ARE A LEARNING EXPERIENCE AND DID NOT WORK
+See /docs/ubuntu-server-notes.md
+
+---
+
 ## My full bare-metal setup
 Listed below is a full list of hardware used for the Kubernetes cluster:
 - RaspberryPi 5 (Master node)
@@ -125,7 +130,9 @@ Install dependencies with:
 `apt-get install -y apt-transport-https ca-certificates curl gpg`
 Then download the public **Kubernetes** GPG public key and save it to the `kubernetes-apt-keyring.gpg` file.
 NOTE: `--dearmor` converts the **ASCII-armored key** into **binary** format. This is required by modern **APT** **keyring** handling.
+
 `curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg`
+
 Then create a repository definition using the downloaded key and write the definiton to the `kubernetes.list` file.
 `echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list`
 
@@ -207,7 +214,3 @@ systemctl restart kubelet
 
 ## Installing flannel
 **SO**... Here is where I realised (after some hours of troubleshooting) that my setup was entirely inappropriate as I have been using RaspberryPi OS Lite 64bit... Which apparently is not suitable for **Kubernetes** clusters as the `cgroup` parameter is set to `disabled` in the firmware. This cannot be changed. So at this point I wiped the OS for both pis and setup Ubuntu Server. Hopefully it works better.
-
----
-
-## Redoing all the steps above but on Ubuntu Server 25.10 64bit

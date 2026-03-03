@@ -1,0 +1,20 @@
+[<any name for this group>]
+<ip_address_pi1> ansible_ssh_private_key_file=<path_to_sshkey_pi1> ansible_user=<user_name1>
+<ip_address_pi2> ansible_ssh_private_key_file=<path_to_sshkey_pi2> ansible_user=<user_name2>
+
+[<any name for node1>]
+<ip_address_pi1> ansible_ssh_private_key_file=<path_to_sshkey_pi1> ansible_user=<user_name1>
+
+[<any name for this node>]
+<ip_address_pi2> ansible_ssh_private_key_file=<path_to_sshkey_pi2> ansible_user=<user_name2>
+
+# EXAMPLE VARIABLES
+# <any name for this group> = all_servers
+# <any name for node1> = master
+# <any name for node2> = worker
+# <ip_address_pi1> = 10.1.1.2
+# <ip_address_pi2> = 10.1.1.3
+# <user_name1> = Linux1
+# <user_name2> = Linux2
+# <path_to_sshkey_pi1> = ~/.ssh/ed25519_pi1
+# <path_to_sshkey_pi2> = ~/.ssh/ed25519_pi2

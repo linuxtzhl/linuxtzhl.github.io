@@ -1,0 +1,289 @@
+---
+- name: Playbook to install the necessary things to run k8s on Raspberry PIs
+  hosts: <any name for this group> 
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: no
+  tasks:
+    # - name: Update repositories cache and upgrade system
+    #   ansible.builtin.apt:
+    #     update_cache: yes
+    #     upgrade: dist
+    #     cache_valid_time: 3600
+    #     autoclean: yes
+    #     autoremove: yes
+
+    # - name: Check if a reboot is needed
+    #   register: reboot_required_file
+    #   stat:
+    #     path: /var/run/reboot-required
+    #     get_checksum: no
+
+    # - name: Reboot if needed
+    #   ansible.builtin.reboot:
+    #     msg: "Reboot initiated by Ansible for kernel updates"
+    #     connect_timeout: 5
+    #     reboot_timeout: 300
+    #     pre_reboot_delay: 0
+    #     post_reboot_delay: 30
+    #     test_command: uptime
+    #   when: reboot_required_file.stat.exists
+
+    # # Disable swap
+
+    # - name: Check whether a package called dphys-swapfile is installed
+    #   ansible.builtin.package_facts:
+    #     manager: auto
+
+    # - name: Turn off "dphys-swapfile"
+    #   ansible.builtin.command: dphys-swapfile swapoff
+    #   when: "'dphys-swapfile' in ansible_facts.packages"
+
+    # - name: Uninstall "dphys-swapfile"
+    #   ansible.builtin.command: dphys-swapfile uninstall
+    #   when: "'dphys-swapfile' in ansible_facts.packages"
+
+    # - name: Remove and purge "dphys-swapfile" package
+    #   ansible.builtin.apt:
+    #     pkg: dphys-swapfile
+    #     state: absent
+    #     purge: yes
+    #     autoclean: yes
+    #     autoremove: yes
+    #   when: "'dphys-swapfile' in ansible_facts.packages"
+
+    # Configure cgroup
+    - name: Check cmdline.txt file
+      ansible.builtin.shell: cat /boot/firmware/cmdline.txt # Location may change based on OS
+      register: content
+
+    - name: Enable cgroup in /boot/firmware/cmdline.txt
+      ansible.builtin.command: sed -i '1s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/' /boot/firmware/cmdline.txt # Appends cgroup variables to the end of the first line in the file 
+      when: content.stdout.find('cgroup_enable=memory') == -1 # Only does the above if cgroup_enable=memory is not in the file
+
+    # Forwarding IPv4 and letting iptables see bridged traffic
+    # Configuring kernal for Kubernetes Networking
+
+    - name: create /etc/modules-load.d/k8s.conf
+      ansible.builtin.copy:
+        content: |
+          overlay
+          br_netfilter
+        dest: /etc/modules-load.d/k8s.conf # File name can be changed to <whatever_you_want>.conf
+        backup: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: modprobe overlay
+      ansible.builtin.command: modprobe overlay
+
+    - name: modprobe br_netfilter
+      ansible.builtin.command: modprobe br_netfilter
+
+    - name: Create /etc/sysctl.d/k8s.conf
+      ansible.builtin.copy:
+        content: |
+          net.bridge.bridge-nf-call-iptables  = 1
+          net.bridge.bridge-nf-call-ip6tables = 1
+          net.ipv4.ip_forward                 = 1
+        dest: /etc/sysctl.d/k8s.conf # File name can be changed to <whatever_you_want>.conf
+        backup: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Apply changes
+      ansible.builtin.command: sysctl --system
+
+    # Install and configure Container Runtime (continerd)
+
+    - name: Install Container Runtime (containerd)
+      ansible.builtin.apt:
+        pkg:
+          - containerd
+          - containernetworking-plugins
+
+    - name: Configure containerd
+      ansible.builtin.shell: |
+        #!/bin/bash
+        mkdir -p /etc/containerd
+        containerd config default > /etc/containerd/config.toml
+      args:
+        executable: /bin/bash
+
+    # Install required networking packages
+
+    - name: Install apt-transport-https ca-certificates
+      ansible.builtin.apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+
+    # Download keys
+    # See https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#:~:text=These%20instructions%20are%20for%20Kubernetes%20v1.35 for guidance
+
+    - name: Download the public signing key
+      ansible.builtin.shell: |
+        #!/bin/bash
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.35/deb/Release.key | sudo gpg --dearmor --yes -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      args:
+        executable: /bin/bash
+
+    - name: Add the Kubernetes apt repository
+      ansible.builtin.shell: |
+        #!/bin/bash
+        echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.35/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+      args:
+        executable: /bin/bash
+
+    # Change deprication date
+    # This may change when the repositories provider (OpenBuildService) signs with gpg v4
+
+    - name: Change deprication date for signed key
+      ansible.builtin.shell: |
+        #!/bin/bash
+        mkdir -p /etc/crypto-policies/back-ends/
+        cp /usr/share/apt/default-sequoia.config /etc/crypto-policies/back-ends/apt-sequoia.config
+        sed -i '/signature/c signature.v3 = 2027-02-01' /etc/crypto-policies/back-ends/apt-sequoia.config
+      args:
+        executable: /bin/bash
+
+    # Update apt-get
+
+    - name: Update apt-get
+      ansible.builtin.command: apt-get update
+  
+    # Install kubelet kubeadm kubectl and conntrack
+    # Made conntrack installation specific to show dependency download
+
+    - name: Install conntrack
+      ansible.builtin.command: apt-get install -y conntrack
+
+    - name: Install kubelet kubeadm kubectl
+      ansible.builtin.apt:
+        pkg:
+          - kubelet
+          - kubeadm
+          - kubectl
+
+    # Allow ssh and enable UFW then set firewall rules 
+
+    - name: Allow ssh enable ufw
+      ansible.builtin.shell: |
+        ufw allow ssh
+        ufw --force enable
+
+    - name: Allow flannel ports on ufw
+      ansible.builtin.shell: |
+        ufw allow 8285/udp
+        ufw allow 8472/udp
+        ufw allow out 8285/udp
+        ufw allow 10250/tcp
+        ufw allow 6443/tcp
+        ufw reload
+
+# Swap to Master node and initialise Kubernetes
+
+- name: Swap to Master node as ROOT and initialise Kubernetes
+  hosts: <any name for node1> # Make sure this is your Master node in the hosts.yml file
+  gather_facts: no
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Initialise Kubernetes
+      # Use --dry-run below for testing purposes (may cause errors if the rest of the ansible is attempted after but good for a safe initial test run)
+      ansible.builtin.command: kubeadm init --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/12 --node-name=<any name for node1> --dry-run
+      register: kubeadm_init_result
+
+    - name: Display the full kubeadm init output
+      ansible.builtin.debug:
+        msg: "{{ kubeadm_init_result.stdout }}" # Output the whole result from kubeadm init
+
+    - name: Show matching line
+      ansible.builtin.set_fact: 
+        join: "{{ item }}"
+      loop: "{{ kubeadm_init_result.stdout_lines | select('search', 'kubeadm join') | list }}" # Find the kubeadm join command (first part)
+    
+    - name: Show matching line 2
+      ansible.builtin.set_fact:
+        key: "{{ item }}"
+      loop: "{{ kubeadm_init_result.stdout_lines | select('search', '--discovery') | list }}" # Find the kubeadm join command (second part)
+      # The above were found separately as there are special characters in the original output
+
+    - name: Create full command
+      ansible.builtin.set_fact:
+        full_command: "{{ join }}{{ key }}"
+
+    # Outputs the full kubeadm join command
+    - name: Run Python script with fact
+      ansible.builtin.script: 
+        cmd: test.py {{ full_command }}
+        executable: python3
+      register: script_output
+      
+    # Saves the full command as a new variable and assigns it to localhost
+    # This allows the use of hostvars['localhost'] on any other host
+    - name: Output join code
+      ansible.builtin.set_fact:
+        full: "{{ script_output.stdout_lines }}"
+      delegate_to: localhost
+      delegate_facts: yes
+
+# Swap to Master node as NON-ROOT and copy configs
+# Default user will be the one set in the hosts.yml file (ansible_user=<user_name1>)
+- name: Swap to Master node as NON-ROOT and copy configs
+  hosts: <any name for node1>
+  gather_facts: yes
+  tasks:
+    - name: Copy configs
+      ansible.builtin.shell: |
+        mkdir -p $HOME/.kube
+        sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+        sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Download and install Flannel on worker node
+
+- name: Swap to woker node and download flannel
+  hosts: worker
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: no
+  tasks:
+    - name: Download and install Flannel
+      ansible.builtin.get_url:
+      # Link taken from: https://github.com/flannel-io/flannel#:~:text=Deploying%20Flannel%20with%20kubectl
+        url: https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+        dest: /usr/local/bin/flanneld
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Create Flannel networks directory
+      ansible.builtin.file:
+        path: /var/lib/k8s/flannel/networks
+        state: directory
+        recurse: yes
+        owner: root
+        group: root
+        mode: '0755'
+
+    # Print next steps
+
+    - name: Next steps
+      debug:
+        msg: 
+          - "You will now need to run the join command"
+          - "{{ hostvars['localhost']['full'] }}"
+          - "on the WORKER node as ROOT."
+          - "Once that is done you can install a CNI eg. Flannel on the MASTER node using the following:"
+          - "kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"
+    
+    # reboot
+
+    - name: reboot
+      reboot:
