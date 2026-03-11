@@ -71,6 +71,11 @@ Finally, I used `kubectl apply -f https://github.com/flannel-io/flannel/releases
 
 ---
 
+## Next steps
+See [dns-ingress-notes.md](./dns-ingress-notes.md) for next steps.
+
+---
+
 ## Useful commands
 Below are a list of useful commands that can help for troubleshooting and checking:
 ```bash
