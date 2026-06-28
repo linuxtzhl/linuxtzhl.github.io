@@ -84,13 +84,14 @@ kubectl get pods -n kube-system
 kubectl get pods -A
 
 systemctl status kubelet
+sudo systemctl enable kubelet # if kubelet is disabled
 systemctl restart kubelet
 journalctl -u kubelet -r
 sudo systemctl is-active containerd
 
 #cleanup (only for clean wipe after a kubeadm init)
-kubeadm reset
-sudorm -rf ~/.kube
+sudo kubeadm reset
+sudo rm -rf ~/.kube
 sudo rm -rf /var/lib/kubelet/
 sudo rm -rf /var/lib/etcd/
 sudo rm -rf /etc/kubernetes/

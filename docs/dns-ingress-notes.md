@@ -23,7 +23,10 @@ https://medium.com/@kalyanishah86/setting-up-metallb-traefik-ingress-and-longhor
 ---
 
 ## Useful commands
-helm upgrade --install metallb metallb/metallb -n metallb
+helm upgrade --install metallb metallb/metallb -n metallb -f values.yaml
+helm upgrade --install traefik traefik/traefik -n traefik -f values.yaml
+kubectl apply -f l2addresspool.yaml
+kubectl apply -f l2advertisement.yaml
 
 kubectl get l2advertisements -n metallb
 kubectl get l2advertisements -n metallb -o yaml
