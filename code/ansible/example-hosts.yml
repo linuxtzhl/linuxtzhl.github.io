@@ -5,7 +5,7 @@
 [<any name for node1>]
 <ip_address_pi1> ansible_ssh_private_key_file=<path_to_sshkey_pi1> ansible_user=<user_name1>
 
-[<any name for this node>]
+[<any name for node2>]
 <ip_address_pi2> ansible_ssh_private_key_file=<path_to_sshkey_pi2> ansible_user=<user_name2>
 
 # EXAMPLE VARIABLES
