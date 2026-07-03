@@ -248,7 +248,7 @@
 # Download and install Flannel on worker node
 
 - name: Swap to woker node and download flannel
-  hosts: worker
+  hosts: <any name for node2>
   become: yes
   become_method: sudo
   become_user: root
