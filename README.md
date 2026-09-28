@@ -1,19 +1,25 @@
-# Welcome!
+# Welcome
+
 Welcome to my Homelab Repo for my Homelabbing journey.
 
 ## History
+
 I initially used Docker with Docker Compose files to set up a basic Homelab, however I quickly learned about the limits to this. It was a good experiment to go through with for a couple of weeks and it helped with my learning but I wanted to do something more complex for learning purposes. That's when I thought of using Kubernetes.
 
 ## K8s
+
 Kubernetes (K8s) is an open-source platform for automating the deployment, scaling, and management of containerized applications.
 
-## Kubernetes Homelab
+### Kubernetes Homelab
+
 My Homelab is starting as a beginner-friendly Kubernetes cluster with 2 RaspberryPis as nodes (2 pi5's - one as master + one as worker). This cluster was built/bootstrapped using **kubeadm**. This was done because I want to learn more about cluster architecture, networking, and DevOps fundamentals from the ground up.
 
 ---
 
-# Purpose
+## Purpose
+
 I am creating this Homelab to meet these goals:
+
 * Understand how Kubernetes actually works
 * Learn cluster bootstrapping with **kubeadm**
 * Practice Linux administration
@@ -24,7 +30,9 @@ I am creating this Homelab to meet these goals:
 ---
 
 ## Why kubeadm?
+
 Instead of using lightweight distributions like **k3s**, **minikube**, **microk8s** etc, I used **kubeadm** because it:
+
 * Exposes the full Kubernetes control plane
 * Teaches how etcd, API server, and scheduler interact
 * Helps understand certificates and cluster security
@@ -33,9 +41,10 @@ Instead of using lightweight distributions like **k3s**, **minikube**, **microk8
 
 ---
 
-# Lab Architecture
+## Lab Architecture
 
-## Cluster Setup
+### Cluster Setup
+
 * 1 Control Plane (master) node
 * 1 worker node
 * **containerd** as the container runtime
@@ -45,7 +54,8 @@ Instead of using lightweight distributions like **k3s**, **minikube**, **microk8
 
 ---
 
-## What I’m Learning
+### What I’m Learning
+
 * How kubeadm bootstraps a cluster
 * What runs inside the control plane
 * How pods communicate
@@ -57,8 +67,10 @@ Instead of using lightweight distributions like **k3s**, **minikube**, **microk8
 
 ---
 
-## Bootstrap Steps
+### Bootstrap Steps
+
 High-level process:
+
 1. Use the Raspberry Pi Imager to install ~~PiOS Lite 64bit~~ Ubuntu Server 25.10 64bit to the Pis
 2. ~~Turn **swap** off (designated space on a disk (either a dedicated partition or a file) which is used as virtual memory when the system's physical RAM is full)~~ Default is off on Ubuntu Server 25.10 64bit
 3. Prepare both pis for Kubernetes Networking (requires certain kernel modules)
@@ -66,10 +78,10 @@ High-level process:
 5. Install kubeadm, kubelet, kubectl
 6. Initialize Master node (kubeadm init)
 7. Configure kubectl
-9. Join worker node(s) to cluster
-10. Apply CNI plugin
+8. Join worker node(s) to cluster
+9. Apply CNI plugin
 
-For full documentation, see [/docs](./docs/).
+For full documentation, see [/docs/first-attempt-provisioning](./docs/first-attempt-provisioning).
 
 ---
 <!--
@@ -124,6 +136,7 @@ This repo is both infrastructure **and** study notebook.
 -->
 
 ## Roadmap
+
 * [ ] Add GitOps (ArgoCD)
 * [ ] Automate provisioning with Terraform
 * [ ] Introduce High Availability control plane
@@ -132,9 +145,3 @@ This repo is both infrastructure **and** study notebook.
 * [ ] Implement stricter security policies
 
 ---
-
-## Who This Is For
-* Beginners learning Kubernetes
-* DevOps students
-* Engineers wanting to understand kubeadm
-* Anyone who prefers learning by building
