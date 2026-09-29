@@ -33,6 +33,7 @@ curl -vk --resolve jellyfin.tzhl.home.lab:443:<TRAEFIK_IP> \
 ```
 
 ---
+
 ## Tips and tricks
 
 ### Standard Ingress pattern
@@ -90,3 +91,5 @@ Normal Kubernetes Ingress can only reference a TLS Secret in the same namespace.
 I do not put the root CA private key in application namespaces.
 
 ---
+
+Next step in the journey [07-cert-manager-internal-tls-notes](./07-cert-manager-internal-tls-notes.md)

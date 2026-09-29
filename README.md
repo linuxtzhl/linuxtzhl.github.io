@@ -2,6 +2,8 @@
 
 Welcome to my Homelab Repo for my Homelabbing journey.
 
+See this doc for useful commands quick reference guide [quick-command-reference](/quick-command-reference.md)
+
 ## History
 
 I initially used Docker with Docker Compose files to set up a basic Homelab, however I quickly learned about the limits to this. It was a good experiment to go through with for a couple of weeks and it helped with my learning but I wanted to do something more complex for learning purposes. That's when I thought of using Kubernetes.

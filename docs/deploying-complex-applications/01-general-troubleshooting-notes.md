@@ -8,7 +8,7 @@ These are the checks and commands that came in handy when something didn't work.
 
 ### Cluster health
 
-NOTE: Most of the time, I was using K9s for troubleshooting and generally naviating my cluster, but below are the useful `kubectl` commands that can be used instead
+NOTE: Most of the time, I was using K9s for troubleshooting and generally navigating my cluster, but below are the useful `kubectl` commands that can be used instead
 
 ```bash
 # All
@@ -47,3 +47,17 @@ findmnt
 ls -ln <path>
 stat <path>
 ```
+
+### Kubernetes and kubeadm notes from building my cluster
+
+```bash
+# Rollout methods
+kubectl rollout status deployment/<name> -n <namespace>
+kubectl rollout restart deployment/<name> -n <namespace>
+kubectl rollout history deployment/<name> -n <namespace>
+kubectl rollout undo deployment/<name> -n <namespace>
+```
+
+---
+
+Next step in the journey [02-ubuntu-server-networking-notes](./02-ubuntu-server-networking-notes.md)

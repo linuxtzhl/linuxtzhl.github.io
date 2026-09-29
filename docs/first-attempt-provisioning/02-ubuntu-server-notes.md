@@ -1,6 +1,6 @@
 # A new set of notes using the correct OS on two Raspberry Pi 5's
 
-NOTE: See [/docs/rpi-os-notes.md](./rpi-os-notes.md) for previous setup attempt (DID NOT WORK)
+NOTE: See [rpi-os-notes.md](./rpi-os-notes.md) for previous setup attempt (DID NOT WORK)
 
 ---
 
@@ -25,7 +25,7 @@ Listed below is a full list of hardware used for the Kubernetes cluster:
 ## Full reset
 
 SO... Because I messed up on my first attempt, I decided to automate the process for provisioning a 2 (or more) node **Kubernetes Cluster** with **ansible**.
-NOTE: I used this `https://medium.com/karlmax-berlin/how-to-install-kubernetes-on-raspberry-pi-53b4ce300b58` code as a template for my script.
+NOTE: I used this <https://medium.com/karlmax-berlin/how-to-install-kubernetes-on-raspberry-pi-53b4ce300b58> code as a template for my script.
 See /code/examples/example-ansible.yml
 The script mostly speaks for itself but I will journal my process here.
 
@@ -33,7 +33,7 @@ The script mostly speaks for itself but I will journal my process here.
 
 ## Using ansible
 
-Here are some docs that got me through this process `https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/index.html`
+Here are some docs that got me through this process <https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/index.html>
 At work I have used **ansible** a bit but I never really understood how useful/powerful it can be when automating any kind of setup.
 
 ---
@@ -63,12 +63,12 @@ For example: Lines 57-63 in my code equates to the following from the linked exa
 ```
 
 I found that the `ansible.builtin.lineinfile` command, with the `regexp` filter just didn't work, so I did the same thing but with old reliable **bash**.
-I used my guide from [/docs/rpi-os-notes.md](./rpi-os-notes.md) as a step-by-step process, essentially recreating that manual process as it mostly worked.
+I used my guide from [rpi-os-notes.md](./rpi-os-notes.md) as a step-by-step process, essentially recreating that manual process as it mostly worked.
 This time around I ran into less errors while creating the script. Most of the errors were from incorrect use of **ansible** as I was still getting the hang of the **syntax** and how many times to indent lines.
 
 ### Step 4: kubeadm init (going above and beyond)
 
-The **ansible** script that I used as a template stopped after installing a CNI to both nodes, however, I wanted to automate the process as much as I could. So I wrote a few extra lines at the end (before CNI installation) to run `kubeadm init` on the Master node. This code runs the same `kubeadm init` command from my /docs/pi-os-notes.md and uses a **python** script to loop through the two sections of the `kubeadm join` command (outputted from `kubeadm init`) to create the whole command with no line breaks or special characters.
+The **ansible** script that I used as a template stopped after installing a CNI to both nodes, however, I wanted to automate the process as much as I could. So I wrote a few extra lines at the end (before CNI installation) to run `kubeadm init` on the Master node. This code runs the same `kubeadm init` command from my pi-os-notes.md and uses a **python** script to loop through the two sections of the `kubeadm join` command (outputted from `kubeadm init`) to create the whole command with no line breaks or special characters.
 
 ### Step 5: Output checks
 

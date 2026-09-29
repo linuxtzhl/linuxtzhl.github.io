@@ -54,8 +54,8 @@ curl --cacert homelab-root-ca.crt \
   https://jellyfin.tzhl.home.lab/
 ```
 
-
 ---
+
 ## Tips and tricks
 
 My internal CA chain is:
@@ -119,8 +119,8 @@ I trust it to identify websites.
 
 Once the root CA is trusted, I do not need to reinstall it whenever a normal wildcard or leaf certificate renews. I only need to redistribute trust if I replace the root CA itself.
 
-
 ---
+
 ## Troubleshooting
 
 ### Firefox: `SEC_ERROR_UNKNOWN_ISSUER`
@@ -178,3 +178,5 @@ app.media.tzhl.home.lab
 A wildcard covers one label only.
 
 ---
+
+Next step in the journey [08-pihole-local-dns-notes](./08-pihole-local-dns-notes.md)

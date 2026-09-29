@@ -2,7 +2,7 @@
 
 I decided to start with a standalone PostgreSQL deployment because it is simpler to understand and restore. These notes cover the Kubernetes Services, useful SQL commands, backups, password problems, and future migration.
 
-CONTEXT: The current database is called `postgres` and the application username is `tzhl`; the password remains in a Kubernetes Secret.
+The Homarr application requires a Postgresql database, so I decided to create an external one as it could come in handy if I deploy other applications that need it.
 
 ---
 
@@ -91,8 +91,8 @@ PGPASSWORD='<password>' pg_restore \
   postgres-YYYY-MM-DD.dump
 ```
 
-
 ---
+
 ## Tips and tricks
 
 ### Service meanings
@@ -134,8 +134,8 @@ The most important protections are:
 - Resource requests
 - Monitoring storage capacity
 
-
 ---
+
 ## Troubleshooting
 
 ### Connection refused
@@ -177,3 +177,5 @@ Before moving PostgreSQL:
 7. Keep the old instance offline but intact until validation is complete
 
 ---
+
+Next step in the journey [11-homarr-notes](./11-homarr-notes.md)

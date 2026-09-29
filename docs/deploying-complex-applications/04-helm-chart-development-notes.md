@@ -67,28 +67,7 @@ helm upgrade --install ...
 
 ### StorageClasses render as one broken YAML document
 
-I saw output resembling:
-
-```yaml
-allowVolumeExpansion: true
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-```
-
 Each Kubernetes object must be separated by `---`, or generated from separate template files.
-
-Example:
-
-```yaml
-{{- range .Values.storageClasses }}
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: {{ .name }}
-...
-{{- end }}
-```
 
 Always verify with:
 
@@ -115,3 +94,5 @@ Common causes:
 - Resource name changed, creating a second object instead of updating the first
 
 ---
+
+Next step in the journey [05-metallb-notes](./05-metallb-notes.md)

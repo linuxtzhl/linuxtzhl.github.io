@@ -35,8 +35,8 @@ Flush caches where appropriate:
 sudo resolvectl flush-caches
 ```
 
-
 ---
+
 ## Tips and tricks
 
 I use Pi-hole local DNS records so names such as:
@@ -53,8 +53,8 @@ The DNS record generally points to Traefik, not directly to the application Pod 
 
 Pi-hole itself can use HTTPS by being proxied through Traefik. Pi-hole does not need to terminate TLS directly for the web UI.
 
-
 ---
+
 ## Troubleshooting
 
 ### `dig` returns both a public IP and a local IP
@@ -85,3 +85,5 @@ Check the DHCP-provided DNS server on each client. Also check whether a VPN, cor
 This is usually a local DNS record or client DNS configuration issue, not a Kubernetes Service issue.
 
 ---
+
+Next step in the journey [09-zfs-nfs-csi-storage-notes](./09-zfs-nfs-csi-storage-notes.md)

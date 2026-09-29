@@ -17,7 +17,7 @@ MetalLB is a common **LoadBalancer** used for bare-metal setups (eg. a homelab).
 
 ---
 
-## Traefik
+## Step 2: Traefik
 
 Useful links for deploying traefik:
 

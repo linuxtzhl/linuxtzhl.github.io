@@ -75,8 +75,8 @@ kubectl exec -it <pod> -n <namespace> -- df -h
 kubectl exec -it <pod> -n <namespace> -- ls -lna /data
 ```
 
-
 ---
+
 ## Tips and tricks
 
 ### StorageClasses
@@ -143,8 +143,8 @@ reclaimPolicy: Retain
 
 deleting a PVC does not delete the underlying NFS data. The PV may enter `Released` and require manual cleanup or claimRef removal before reuse.
 
-
 ---
+
 ## Troubleshooting
 
 ### `mount failed: exit status 32`
@@ -187,7 +187,6 @@ If containers use `PUID=1000` and `PGID=1000`, the NFS directories should be wri
 
 I avoid solving permissions with `chmod -R 777` unless it is a very temporary diagnostic step.
 
-
 ### File begins with zero bytes in a container
 
 I used:
@@ -211,3 +210,7 @@ du -h "<file>"
 du --apparent-size -h "<file>"
 file "<file>"
 ```
+
+---
+
+Next step in the journey [10-postgresql-notes](./10-postgresql-notes.md)

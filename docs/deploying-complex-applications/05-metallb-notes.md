@@ -24,8 +24,8 @@ kubectl get svc -A --field-selector spec.type=LoadBalancer
 kubectl describe svc <service> -n <namespace>
 ```
 
-
 ---
+
 ## Tips and tricks
 
 MetalLB needs both:
@@ -55,10 +55,10 @@ spec:
     - lan-pool
 ```
 
-I only use an address range that is outside my router's normal DHCP allocation.
-
+These can be created in separate yaml files or in a single one as shown in the example, then applied to the cluster using `kubectl apply`.
 
 ---
+
 ## Troubleshooting
 
 ### LoadBalancer remains `pending`
@@ -77,3 +77,5 @@ kubectl describe svc <service> -n <namespace>
 Pi-hole may need multiple ports on one LoadBalancer IP. A single Service can expose TCP and UDP ports. If multiple Services intentionally share one IP, the MetalLB shared-IP annotation and compatible selectors/traffic policy may be needed.
 
 ---
+
+Next step in the journey [06-traefik-notes](./06-traefik-notes.md)

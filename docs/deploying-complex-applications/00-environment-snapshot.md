@@ -24,6 +24,7 @@ My main services include:
 - PostgreSQL
 
 ---
+
 ## My basic design principles
 
 - Keep application configuration on persistent volumes.
@@ -36,3 +37,5 @@ My main services include:
 - Trust my internal root CA on client devices rather than bypassing TLS warnings.
 
 ---
+
+Next step in the journey [01-general-troubleshooting-notes](./01-general-troubleshooting-notes.md)

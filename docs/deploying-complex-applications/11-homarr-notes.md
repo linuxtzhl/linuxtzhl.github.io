@@ -30,8 +30,8 @@ kubectl get pods,svc,ingress -n homarr
 kubectl logs -n homarr deployment/homarr
 ```
 
-
 ---
+
 ## Tips and tricks
 
 I saw:
@@ -67,8 +67,8 @@ Username: tzhl
 
 The password remains in a Secret.
 
-
 ---
+
 ## Troubleshooting
 
 ### Invalid environment variable
@@ -98,3 +98,5 @@ kubectl exec -it -n homarr deployment/homarr -- \
 Use a temporary PostgreSQL client pod for an actual database login test.
 
 ---
+
+Useful commands quick reference guide [quick-command-reference](/quick-command-reference.md)

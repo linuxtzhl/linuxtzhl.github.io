@@ -42,8 +42,8 @@ Check Pod CIDR allocation:
 kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.podCIDR}{"\n"}{end}'
 ```
 
-
 ---
+
 ## Tips and tricks
 
 My Pod CIDR is:
@@ -56,8 +56,8 @@ This must agree with the Flannel configuration and the CIDR supplied during `kub
 
 The CNI plugin binary path depends on the installation. I should not add obsolete kubelet command-line flags without checking my Kubernetes version and packaging.
 
-
 ---
+
 ## Troubleshooting
 
 ### `failed to find plugin "flannel" in path [/usr/lib/cni]`
@@ -100,3 +100,5 @@ When CoreDNS is stuck before starting, the problem is often CNI networking rathe
 The flag is not valid for my current kubelet packaging/version. CNI paths should be configured through the runtime/package configuration rather than blindly adding old kubelet flags.
 
 ---
+
+Next step in the journey [04-helm-chart-development-notes](./04-helm-chart-development-notes.md)

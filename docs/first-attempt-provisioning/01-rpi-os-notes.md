@@ -247,3 +247,5 @@ systemctl restart kubelet
 ## Installing flannel
 
 **SO**... Here is where I realised (after some hours of troubleshooting) that my setup was entirely inappropriate as I have been using RaspberryPi OS Lite 64bit... Which apparently is not suitable for **Kubernetes** clusters as the `cgroup` parameter is set to `disabled` in the firmware. This cannot be changed. So at this point I wiped the OS for both pis and setup Ubuntu Server. Hopefully it works better.
+
+See [02-ubuntu-server-notes](./02-ubuntu-server-notes.md) for details on what I did next.

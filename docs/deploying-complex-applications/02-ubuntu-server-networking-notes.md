@@ -36,4 +36,7 @@ ls -la /run/systemd/network
 # Restart networking
 sudo systemctl restart systemd-networkd
 ```
+
 ---
+
+Next step in the journey [03-flannel-container-networking-notes](./03-flannel-container-networking-notes.md)
