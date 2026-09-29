@@ -20,8 +20,8 @@ kubectl get storageclass,pv
 kubectl get pvc -A
 ```
 
-
 ---
+
 ## Helm
 
 ```bash
@@ -33,8 +33,8 @@ helm get values release -n namespace -a
 helm get manifest release -n namespace
 ```
 
-
 ---
+
 ## Networking
 
 ```bash
@@ -46,8 +46,8 @@ dig <hostname>
 curl -vk https://<hostname>
 ```
 
-
 ---
+
 ## NFS
 
 ```bash
@@ -58,8 +58,8 @@ mount | grep nfs
 ls -lna <path>
 ```
 
-
 ---
+
 ## Docker
 
 ```bash
@@ -70,8 +70,8 @@ docker inspect <container>
 docker exec -it <container> /bin/sh
 ```
 
-
 ---
+
 ## TLS
 
 ```bash
@@ -80,8 +80,8 @@ openssl x509 -in <certificate.crt> -noout -subject -issuer -dates -fingerprint -
 curl --cacert homelab-root-ca.crt https://<host>/
 ```
 
-
 ---
+
 ## PostgreSQL
 
 ```bash
