@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-tls
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: wildcard-tls
+
+  dnsNames:
+    - <dns-name>
+
+  issuerRef:
+    name: <issuer-name>
+    kind: ClusterIssuer
+    group: cert-manager.io
+
+  duration: 2160h
+  renewBefore: 360h

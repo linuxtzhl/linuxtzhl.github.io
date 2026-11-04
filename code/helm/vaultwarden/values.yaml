@@ -1,0 +1,32 @@
+vaultwarden:
+  storage:
+    data:
+      name: vaultwarden-data
+      size: 10Gi
+      class: <storage-class-name>
+      keepPvc: true
+      accessMode: ReadWriteMany
+
+  domain: <dns-name>
+
+  signupsAllowed: true
+
+  database:
+    type: postgresql
+    host: <database-host-fqdn>
+    port: <database-port>
+    username: <username>
+    password: <database-password>
+    dbName: <database-name>
+
+  service:
+    type: ClusterIP
+
+  ingress:
+    enabled: true
+    class: traefik
+    hostname: <dns-name>
+    path: /
+    pathType: Prefix
+    tls: true
+    tlsSecret: vaultwarden-tls

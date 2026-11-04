@@ -1,0 +1,12 @@
+apiVersion: v2
+name: vaultwarden
+description: Vaultwarden deployment using a Helm dependency
+type: application
+
+version: 0.1.0
+appVersion: "1.0"
+
+dependencies:
+  - name: vaultwarden
+    repository: https://guerzon.github.io/vaultwarden
+    version: "0.46.3"

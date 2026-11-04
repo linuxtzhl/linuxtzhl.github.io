@@ -1,0 +1,10 @@
+{{- if .Values.config.enabled }}
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: {{ .Values.config.poolName | quote }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  addresses:
+{{- toYaml .Values.config.addresses | nindent 4 }}
+{{- end }}

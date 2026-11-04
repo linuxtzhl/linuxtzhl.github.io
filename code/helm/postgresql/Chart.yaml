@@ -1,0 +1,11 @@
+apiVersion: v2
+name: postgresql
+description: Shared infrastructure for the homelab
+type: application
+version: 0.1.0
+
+# https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+dependencies:
+  - name: postgresql
+    version: 18.12.17
+    repository: oci://registry-1.docker.io/bitnamicharts

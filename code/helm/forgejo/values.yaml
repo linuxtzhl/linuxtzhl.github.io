@@ -1,0 +1,57 @@
+forgejo:
+  persistence:
+    enabled: true
+    storageClass: <storage-class-name>
+    size: 20Gi
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+
+  gitea:
+    admin:
+      existingSecret: <secret-name>
+      passwordMode: initialOnlyRequireReset
+
+    config:
+      APP_NAME: Forgejo
+
+      service:
+        DISABLE_REGISTRATION: true
+        ENABLE_REVERSE_PROXY_AUTHENTICATION: false
+
+      repository:
+        DEFAULT_PRIVATE: private
+
+      database:
+        DB_TYPE: postgres
+        HOST: <database-host-fqdn>
+        # PORT: 5432
+        NAME: forgejo
+        USER: forgejo
+        PASSWD: <database-password>
+
+      server:
+        DOMAIN: <domain> # forgejo.testig.lab
+        ROOT_URL: <url> # https://forgejo.testing.lab/
+        DISABLE_SSH: true
+        START_SSH_SERVER: false
+
+  ingress:
+    enabled: true
+    className: <ingress-class-name>
+
+    hosts:
+      - host: <domain>
+        paths:
+          - path: /
+            pathType: Prefix
+            port: http
+
+    tls:
+      - hosts:
+        - <domain>

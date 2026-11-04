@@ -1,0 +1,17 @@
+metallb:
+  speaker:
+    frr:
+      enabled: false
+
+  frrk8s:
+    enabled: false
+
+config:
+  # Set to false to disable the IPAddressPool and L2Advertisement resources from being created on intitial install.
+  enabled: false
+
+  poolName: <pool-name>
+  advertisementName: <>advertisement-name>
+
+  addresses:
+    - <ip-address-range>

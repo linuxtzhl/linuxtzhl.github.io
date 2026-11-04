@@ -1,0 +1,41 @@
+traefik:
+  deployment:
+    replicas: 1
+
+  service:
+    spec:
+      type: LoadBalancer
+    annotations:
+      metallb.io/loadBalancerIPs: <ip-address>
+      metallb.io/address-pool: <pool-name>
+
+  api:
+    dashboard: true
+    insecure: false
+
+  ingressRoute:
+    dashboard:
+      enabled: true
+      matchRule: "Host(`<dns-name>`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
+      entryPoints:
+        - websecure
+      tls: {}
+
+  tlsStore:
+    default:
+      defaultCertificate:
+        secretName: wildcard-tls
+
+  ingressClass:
+    enabled: true
+    isDefaultClass: false
+    name: traefik
+
+  providers:
+    kubernetesIngress:
+      enabled: true
+      ingressClass: traefik
+
+    kubernetesCRD:
+      enabled: true
+      ingressClass: traefik

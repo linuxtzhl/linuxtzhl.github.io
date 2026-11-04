@@ -1,0 +1,10 @@
+issuer:
+  name: <name>
+  secretName: <secret-name>
+
+certificate:
+  name: <certificate-name>
+  namespace: <certificate-namespace>
+  secretName: <certificate-secret-name>
+  dnsNames:
+    - <local-dns-name>

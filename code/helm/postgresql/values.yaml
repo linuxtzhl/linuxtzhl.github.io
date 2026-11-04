@@ -1,0 +1,33 @@
+postgresql:
+  architecture: standalone
+
+  auth:
+    postgresPassword: <postgres-password>
+    username: <username>
+    password: <password>
+    database: postgresql
+
+  primary:
+    persistence:
+      enabled: true
+      storageClass: <storage-class-name>
+      size: 20Gi
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 1001
+
+  service:
+    type: ClusterIP
+
+  metrics:
+    enabled: true

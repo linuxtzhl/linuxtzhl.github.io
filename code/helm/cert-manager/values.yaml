@@ -1,0 +1,9 @@
+cert-manager:
+  crds:
+    enabled: true
+    keep: true
+
+  replicaCount: 1
+
+  prometheus:
+    enabled: false
